@@ -12,4 +12,3 @@ def is_rotation(string1, string2):
         return False
     double_trouble = string2 + string2
     return is_substring(string1, double_trouble)
-
