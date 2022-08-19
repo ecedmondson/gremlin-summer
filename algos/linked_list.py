@@ -1,6 +1,3 @@
-from lib2to3.pytree import convert
-
-
 class Node(object): 
     def __init__(self, value, next_node=None, prev_node=None):
         self.value = value
