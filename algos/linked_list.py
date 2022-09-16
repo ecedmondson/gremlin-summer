@@ -72,3 +72,84 @@ def is_palindrome(linked_list):
         backward_pointer = backward_pointer.prev_node
     
     return "Palindrome!"
+
+def intersecting_node(ll1, ll2):
+    """What I came up with first- so slow it wouldn't run on Leetcode agasint large lists"""
+    current_ll1_node = ll1.head
+    while current_ll1_node:
+        current_ll2_node = ll2.head
+        while current_ll2_node:
+            if current_ll1_node == current_ll2_node:
+                return current_ll1_node
+            current_ll2_node = current_ll2_node
+        current_ll1_node = current_ll1_node
+    return None
+
+def intersecting_node_optimized_per_book(ll1, ll2):
+    """
+    Method recommended by the book
+    Run through each linked list to get the lengths and the tails
+    Compare the tails. If they are different (by ref, not by val) return immediately
+    Set two pointers to the start of each linked list
+    On the longer linked list, advance fwd to make them both the same length
+    Traverse on each linked list until the pointers are the same
+    """
+    length_a = 0
+    length_b = 0
+    last_a = ll1.head
+    last_b = ll2.head
+    # Get length of each list, and make sure last node is the same.
+    # If not, we don't have any intersection
+    while last_a.next:
+        last_a = last_a.next
+        length_a += 1
+    while last_b.next:
+        last_b = last_b.next
+        length_b += 1
+    if last_a != last_b:
+        return None
+    
+    # Now, find point of convergence
+    current_a = ll1.head
+    current_b = ll2.head
+    if length_a > length_b:
+        diff = length_a - length_b
+        while diff:
+            current_a = current_a.next
+            diff -= 1
+    elif length_b > length_a:
+        diff = length_b - length_a
+        while diff:
+            current_b = current_b.next
+            diff -= 1
+    while current_a != current_b:
+        current_a = current_a.next
+        current_b = current_b.next
+    
+    return current_a
+
+def intersecting_nodes_cache(ll1, ll2):
+    """Based off another person's solution on Leetcode- still slow though!"""
+    visited = set()
+    current_a = ll1.head
+    while current_a:
+        visited.add(current_a)
+        current_a = current_a.next
+    
+    current_b = ll2.head
+    while current_b:
+        if current_b in visited:
+            return current_b
+        current_b = current_b.next
+    return None
+
+def is_list_circular(llist):
+    """This is what I came up with, based on my attempts at the previous problem"""
+    visited = set()
+    current = llist.head
+    while current:
+        if current in visited:
+            return True
+        visited.add(current)
+        current = current.next
+    return False
