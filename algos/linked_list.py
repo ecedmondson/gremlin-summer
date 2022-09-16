@@ -153,3 +153,13 @@ def is_list_circular(llist):
         visited.add(current)
         current = current.next
     return False
+
+def is_list_circular_fast_runner_slow_runner(llist):
+    """This is based on what the book says, w/ the fast and slow pointer"""
+    slow_pointer = llist.head
+    fast_pointer = llist.head
+    while fast_pointer and fast_pointer.next:
+        slow_pointer, fast_pointer = slow_pointer.next, fast_pointer.next.next
+        if slow_pointer == fast_pointer:
+            return True
+    return False
