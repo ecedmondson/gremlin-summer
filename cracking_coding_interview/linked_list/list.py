@@ -16,6 +16,10 @@ class DoublyLinkedList:
         new.prev = self.last
         self.last = new
 
+    def insert_and_retrieve(self, val):
+        self.insert(val)
+        return self.last
+
     def delete(self, val):
         """deletes first occurence of val"""
         ptr = self.head
@@ -82,13 +86,6 @@ def sum_lists_reverse(first_list, second_list):
 
 sum_lists_reverse(first_list, second_list)
 
-def get_double_next(node):
-    next = node.next
-    if next:
-        if next.next:
-            return 2, next.next
-        return 1, next.next
-    return 0, None
         
 # DLL is doubly linked but make this work for single too       
 def is_linked_list_palindrome(linked_list):
@@ -139,4 +136,67 @@ print(is_linked_list_palindrome(even))
         
     
     
+# Round 2 starts here
+
+def remove_dups(linked_list):
+    head = linked_list.head
+    already = {}
+    while head != None:
+        if head.val not in already:
+            already[head.val] = True
+        else:
+            prev = head.prev
+            nxt = head.next
+            prev.next = nxt
+            nxt.prev = prev
+        head = head.next 
+
+def kth_to_last(ll, k):
+    # what to do if k > len(ll)? 
+    # like what to return? None, reverse indexing? idk
+    # don't handle it right now
+    base = ll.head
+    ind = 0
+    while base:
+        if ind == k:
+            ll.head = base
+            base.prev = None
+            return ll
+        ind += 1
+        base = base.next
+
+print("ktl")
+ktl = DLL(1)
+for x in range(2, 10):
+    ktl.insert(x)
+
+ktl.print()
+kth_to_last(ktl, 5)
+ktl.print()
+
+   
+print("delete middle node")
+print("this one says to use singly linked list. my implementation is DLL, so i'm just not going to call prev")
+def delt_mid(middle_node):
+    cur = middle_node
+    nxt = middle_node.next
+    while nxt:
+        cur.val = nxt.val
+        cur = nxt
+        nxt = nxt.next
+
+dm = DLL(1)
+for x in range(2, 7):
+    dm.insert(x)
+mid = dm.insert_and_retrieve(8)
+for x in range(9, 15):
+    dm.insert(x)
+
+dm.print()
+delt_mid(mid)
+dm.print()
+
+print("i seem to delete two nodes here. not sure how to get around that without access to prev")
+
+print("partitioning, i guess")
  
